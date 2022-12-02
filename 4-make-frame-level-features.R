@@ -15,7 +15,7 @@ source("mickFunctions/funMatrix.R", chdir = TRUE)
 mc <- 2 # ifelse(detectCores()>4, detectCores()-2, detectCores())
 options(scipen=999)	# avoid scientific notation (long sequences of numbers were rounded)
 
-load("output/targets-w2022-hq.Rdata")
+load("output/targets-w2022.Rdata")
 
 ####
 #	Calculate movement variables
@@ -94,9 +94,7 @@ rm(tmp); gc()
 # # versions if desired
 # frame.nfo.FromPIMs <- frame.nfo
 
-frame.nfo <- frame.nfo %>% left_join(target.nfo %>% dplyr::select(targ_id, class, class_cat),
-                                     by = "targ_id")
-
 #		Save data
-save(frame.nfo, target.nfo, target.pix, 
-     file="output/targets-w2022-hq.RData")
+save(frame.nfo, target.nfo, target.pix, file="output/targets-w2022.RData")
+save(frame.nfo, file="output/targets-w2022-framenfo.RData")
+

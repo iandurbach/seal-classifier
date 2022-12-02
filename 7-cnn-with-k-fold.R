@@ -23,7 +23,17 @@ for(i in 1:length(target.pix)){
 seq_df <- data.frame(xt_row = 1:nrow(xt),
                      s_id = rep(1:length(target.pix), n_mat_per_target)) %>%
   group_by(s_id) %>% mutate(f_id = row_number()) %>% ungroup() %>%
-  left_join(target.var %>% dplyr::select(targ_id, class) %>% mutate(s_id = row_number()), by = "s_id")
+  left_join(frame.nfo %>% dplyr::select(targ_id, class) %>% mutate(s_id = row_number()), by = "s_id")
+
+xxx<-seq_df %>% group_by(s_id) %>% 
+  mutate(nf = n()/2) %>%
+  mutate(rr = rank(abs(f_id-nf))) %>%
+  slice_min(order_by = rr, n = 5) %>%
+  arrange(s_id, f_id) %>%
+  ungroup()
+
+seq_df <- frame.nfo %>% rename(s_id = targ_id, 
+                               f_id = frame_id) %>% mutate(xt_row = 1:nrow(xt))
 
 # CNN
 

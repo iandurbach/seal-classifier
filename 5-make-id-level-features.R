@@ -12,7 +12,7 @@ source('mickFunctions/funMatrix.R', chdir = TRUE)
 mc <- ifelse(detectCores()>4, detectCores()-2, detectCores())
 options(scipen=999)	# avoid scientific notation (long sequences of numbers were rounded)
 
-load("output/targets-w2022-hq.RData")
+load("output/targets-w2022.RData")
 
 # # can create target.var from either target.nfo.FromPIMs or target.nfo.Tritech
 # frame.nfo <- frame.nfo
@@ -146,10 +146,9 @@ vars <- c(vmov,vshp,vpix,vmspec,vsspec,vpspec)
 # # choose which one to use in next steps (can overwrite later if needed, got both)
 # target.var <- target.var.FromPIMs
 
-target.var <- target.var %>% left_join(target.nfo %>% dplyr::select(targ_id, rawclass, class_conf), by = "targ_id")
+target.var <- target.var %>% left_join(target.nfo %>% dplyr::select(-class), by = "targ_id")
 target.nfo <- target.var
 
 #		Save data
-save(frame.nfo, target.nfo, target.pix, 
-     file="output/targets-w2022-hq.RData")
+save(frame.nfo, target.nfo, target.pix, file="output/targets-w2022.RData")
 
